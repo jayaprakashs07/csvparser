@@ -76,8 +76,8 @@ public class DataProcessor {
         }
 
         LocalDateTime end = LocalDateTime.now();
-        log.info(" end time {} ", end);
-        log.info("total amount of time to process the CSV file {} ", getTime(start,end));
+        log.info("End time {} ", end);
+        log.info("Total amount of time to process the CSV file {} ", getTime(start,end));
     }
 
     private String getTime(LocalDateTime startTime, LocalDateTime endTime) {
