@@ -2,7 +2,6 @@ package com.example.data.postgres.migration.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "temp_migrate")
@@ -13,13 +12,13 @@ public class TempMigrate {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence-generator")
     private int tmpid;
 
-    private long irecipientid;
+    private long irecid;
 
-    private LocalDate tsfirstsignup;
+    private LocalDate tsignupdate;
 
-    private String sfirstsignupcountryisoa2;
+    private String scountry;
 
-    private String sbrandcode;
+    private String sbrand;
 
     private String seuci;
 
@@ -27,61 +26,61 @@ public class TempMigrate {
 
     private long isourceid;
 
-    private long irecipientstatus;
+    private long istatus;
 
     public TempMigrate() {
     }
 
-    public TempMigrate(long irecipientid, LocalDate tsfirstsignup, String sfirstsignupcountryisoa2, String sbrandcode,
-                       String seuci, long istoreid, long isourceid, long irecipientstatus) {
-        this.irecipientid = irecipientid;
-        this.tsfirstsignup = tsfirstsignup;
-        this.sfirstsignupcountryisoa2 = sfirstsignupcountryisoa2;
-        this.sbrandcode = sbrandcode;
+    public TempMigrate(long irecid, LocalDate tsignupdate, String scountry, String sbrand,
+                       String seuci, long istoreid, long isourceid, long istatus) {
+        this.irecid = irecid;
+        this.tsignupdate = tsignupdate;
+        this.scountry = scountry;
+        this.sbrand = sbrand;
         this.seuci = seuci;
         this.istoreid = istoreid;
         this.isourceid = isourceid;
-        this.irecipientstatus = irecipientstatus;
+        this.istatus = istatus;
     }
 
-    public Integer getTmpid() {
+    public int getTmpid() {
         return tmpid;
     }
 
-    public void setTmpid(Integer tmpid) {
+    public void setTmpid(int tmpid) {
         this.tmpid = tmpid;
     }
 
-    public long getIrecipientid() {
-        return irecipientid;
+    public long getIrecid() {
+        return irecid;
     }
 
-    public void setIrecipientid(long irecipientid) {
-        this.irecipientid = irecipientid;
+    public void setIrecid(long irecid) {
+        this.irecid = irecid;
     }
 
-    public LocalDate getTsfirstsignup() {
-        return tsfirstsignup;
+    public LocalDate getTsignupdate() {
+        return tsignupdate;
     }
 
-    public void setTsfirstsignup(LocalDate tsfirstsignup) {
-        this.tsfirstsignup = tsfirstsignup;
+    public void setTsignupdate(LocalDate tsignupdate) {
+        this.tsignupdate = tsignupdate;
     }
 
-    public String getSfirstsignupcountryisoa2() {
-        return sfirstsignupcountryisoa2;
+    public String getScountry() {
+        return scountry;
     }
 
-    public void setSfirstsignupcountryisoa2(String sfirstsignupcountryisoa2) {
-        this.sfirstsignupcountryisoa2 = sfirstsignupcountryisoa2;
+    public void setScountry(String scountry) {
+        this.scountry = scountry;
     }
 
-    public String getSbrandcode() {
-        return sbrandcode;
+    public String getSbrand() {
+        return sbrand;
     }
 
-    public void setSbrandcode(String sbrandcode) {
-        this.sbrandcode = sbrandcode;
+    public void setSbrand(String sbrand) {
+        this.sbrand = sbrand;
     }
 
     public String getSeuci() {
@@ -108,11 +107,11 @@ public class TempMigrate {
         this.isourceid = isourceid;
     }
 
-    public long getIrecipientstatus() {
-        return irecipientstatus;
+    public long getIstatus() {
+        return istatus;
     }
 
-    public void setIrecipientstatus(long irecipientstatus) {
-        this.irecipientstatus = irecipientstatus;
+    public void setIstatus(long istatus) {
+        this.istatus = istatus;
     }
 }
