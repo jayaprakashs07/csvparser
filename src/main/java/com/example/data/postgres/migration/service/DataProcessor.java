@@ -7,17 +7,19 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.time.LocalDateTime;
+import lombok.extern.log4j.Log4j2;
 import java.nio.charset.StandardCharsets;
 import java.time.format.DateTimeFormatter;
 import com.univocity.parsers.csv.CsvParser;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import com.univocity.parsers.csv.CsvParserSettings;
+import org.springframework.beans.factory.annotation.Value;
 import com.example.data.postgres.migration.model.TempMigrate;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.data.postgres.migration.repository.MigrateRepository;
 
 @Service
+@Log4j2
 public class DataProcessor {
 
     @Autowired MigrateRepository repository;
@@ -27,15 +29,20 @@ public class DataProcessor {
     static final int SECONDS_PER_MINUTE = 60;
     static final int SECONDS_PER_HOUR = SECONDS_PER_MINUTE * MINUTES_PER_HOUR;
 
-    public void readAndProcess() throws Exception {
+    public void readAndProcess() {
 
         LocalDateTime start = LocalDateTime.now();
+
+        log.info("Execution of method readAndProcess() started.. ");
+        log.info("Start time {} ", start);
+
         CsvParserSettings settings = new CsvParserSettings();
         CsvParser parser = new CsvParser(settings);
         Iterator<String[]> it = parser.iterate(new File(filePath), StandardCharsets.UTF_8).iterator();
 
 
         int batchSize = 0;
+        int count = 1;
         List<TempMigrate> list = new ArrayList<>();
 
         while (it.hasNext()) {
@@ -47,18 +54,30 @@ public class DataProcessor {
                     Long.parseLong(row[6]), Long.parseLong(row[7])));
             batchSize++;
             if (batchSize == 20000) {
-                repository.saveAll(list);
-                list.clear();
-                batchSize=0;
+                try {
+                    repository.saveAll(list);
+                    list.clear();
+                    batchSize=0;
+                } catch (Exception e) {
+                    log.info("Exception occurs {} ", e.getMessage());
+                }
+                log.info("Records inserted {} ", count);
             }
+            count++;
         }
 
         if (batchSize > 0) {
-            repository.saveAll(list);
-            list.clear();
+            try {
+                repository.saveAll(list);
+                list.clear();
+            } catch (Exception e) {
+                log.info("Exception occurs {} ", e.getMessage());
+            }
         }
-        System.out.println(getTime(start,LocalDateTime.now()));
 
+        LocalDateTime end = LocalDateTime.now();
+        log.info(" end time {} ", end);
+        log.info("total amount of time to process the CSV file {} ", getTime(start,end));
     }
 
     private String getTime(LocalDateTime startTime, LocalDateTime endTime) {
